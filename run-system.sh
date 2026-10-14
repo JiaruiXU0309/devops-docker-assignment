@@ -24,8 +24,21 @@ done
 docker run --name seeder \
     --label assignment=music-agent \
     --network music-agent-network \
-    -v "$PWD/Chinook.db:/app/Chinook.db:ro" \
+    -v ./Chinook.db:/app/Chinook.db:ro \
     -e SQLITE_FILE=/app/Chinook.db \
     -e DATABASE_URL=postgres://hanna:hanna@chinook-db:5432/chinook \
     music-agent-seeder:latest
 
+docker run -d --name mcp-gateway \
+    --label assignment=music-agent \
+    --network music-agent-network \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v ./mcp_config.yaml:/mcp_config.yaml:ro \
+    -v ./mcp_secret.env:/run/secrets/database-url:ro \
+    docker/mcp-gateway:latest \
+    --transport=sse \
+    --secrets=/run/secrets/database-url \
+    --allow-unauthenticated \
+    --servers=cockroachdb \
+    --tools=execute_query \
+    --config=/mcp_config.yaml
