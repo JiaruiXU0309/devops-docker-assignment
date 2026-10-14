@@ -42,3 +42,14 @@ docker run -d --name mcp-gateway \
     --servers=cockroachdb \
     --tools=execute_query \
     --config=/mcp_config.yaml
+
+docker run --name ai-agent \
+    --label assignment=music-agent \
+    --network music-agent-network \
+    -v ./secret.ollama-api-key:/run/secrets/openai-api-key:ro \
+    -e MCP_SERVER_URL=http://mcp-gateway:8811/sse \
+    -e DATABASE_DIALECT=PostgreSQL \
+    -e QUESTION="What are the top 3 albums by sales?" \
+    -e OPENAI_API_BASE_URL=https://ollama.com/v1 \
+    -e OPENAI_MODEL_NAME=gpt-oss:20b \
+    music-agent-agent:latest
