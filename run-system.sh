@@ -16,6 +16,10 @@ docker run -d --name chinook-db \
     -e POSTGRES_DB=chinook \
     postgres:latest
 
+until docker exec chinook-db pg_isready; do
+    echo "Waiting for PostgreSQL..."
+    sleep 2
+done
 
 
 
