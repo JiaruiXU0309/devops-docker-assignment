@@ -21,19 +21,11 @@ until docker exec chinook-db pg_isready; do
     sleep 2
 done
 
+docker run --name seeder \
+    --label assignment=music-agent \
+    --network music-agent-network \
+    -v "$PWD/Chinook.db:/app/Chinook.db:ro" \
+    -e SQLITE_FILE=/app/Chinook.db \
+    -e DATABASE_URL=postgres://hanna:hanna@chinook-db:5432/chinook \
+    music-agent-seeder:latest
 
-
-
-
-
-
-
-
-docker build -t assignment-demo:1.0 ./sample-app/
-
-docker run -d --name assignment \
-       -p 3000:80 \
-    assignment-demo:1.0
-
-sleep 10
-echo "Container started"
