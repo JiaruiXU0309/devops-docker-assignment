@@ -6,6 +6,8 @@ docker network create --label assignment=music-agent music-agent-network
 
 docker build --label assignment=music-agent --target seeder -t music-agent-seeder:latest .
 
+docker build --label assignment=music-agent --target agent -t music-agent-agent:latest .
+
 
 
 
