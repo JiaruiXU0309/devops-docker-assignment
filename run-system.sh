@@ -8,7 +8,13 @@ docker build --label assignment=music-agent --target seeder -t music-agent-seede
 
 docker build --label assignment=music-agent --target agent -t music-agent-agent:latest .
 
-
+docker run -d --name chinook-db \
+    --label assignment=music-agent \
+    --network music-agent-network \
+    -e POSTGRES_USER=hanna \
+    -e POSTGRES_PASSWORD=hanna \
+    -e POSTGRES_DB=chinook \
+    postgres:latest
 
 
 
