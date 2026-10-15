@@ -2,6 +2,9 @@
 
 set -e
 
+# Prevent Git Bash from converting container paths to Windows paths.
+export MSYS_NO_PATHCONV=1
+
 docker network create --label assignment=music-agent music-agent-network
 
 docker build --label assignment=music-agent --target seeder -t music-agent-seeder:latest .
