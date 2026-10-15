@@ -21,7 +21,7 @@ until docker exec chinook-db pg_isready; do
     sleep 2
 done
 
-docker run --name seeder \
+docker run --rm --name seeder \
     --label assignment=music-agent \
     --network music-agent-network \
     -v ./Chinook.db:/app/Chinook.db:ro \
@@ -43,7 +43,7 @@ docker run -d --name mcp-gateway \
     --tools=execute_query \
     --config=/mcp_config.yaml
 
-docker run --name ai-agent \
+docker run --rm --name ai-agent \
     --label assignment=music-agent \
     --network music-agent-network \
     -v ./secret.ollama-api-key:/run/secrets/openai-api-key:ro \
