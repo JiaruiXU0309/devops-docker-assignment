@@ -7,3 +7,9 @@ if [ -n "$container_ids" ]; then
     docker rm $containers_id
     docker rm -v $containers_id
 fi
+
+network_id=$(docker network ls -q --filter label=assignment=music-agent)
+
+if [ -n "$network_id" ]; then
+    docker network rm $network_id
+fi
